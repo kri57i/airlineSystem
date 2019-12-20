@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create trip</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+         <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+          <link rel="stylesheet" th:href="@{/css/main.css}"/>
+           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    </head>
+	<body class = "text-center" th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
+
+
+<header th:replace="template::user-header"></header>   
+	        <div class="container">
+
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1>Create trip</h1>
+				<form th:action="@{/saveTrip}" th:object="${trip}" method="post">
+					<div class="form-group">
+						<label for="reason">Reason</label>:
+						<select class="form-control" th:field="*{reason}">
+	    	            <option th:each="reason : ${reasons}" th:value="${reason}" th:text="${reason}">Reason</option>
+	    	            </select>
+	    	            <label th:if="${#fields.hasErrors('reason')}"  th:errors="*{reason}"  class="form-control alert alert-danger">Error in Reason</label></td>
+					</div>
+					<div class="form-group">
+					    <label for="description">Description</label>:
+						<textarea class="form-control" placeholder="Required(3 - 33)" type="text" th:field="*{description}"/></textarea>
+						<label th:if="${#fields.hasErrors('description')}"  th:errors="*{description}" class="form-control alert alert-danger">Error in Description</label>
+					</div>
+					<div class="form-group">
+					     <label for="fromLocation">From</label>:
+						 <select class="form-control" th:field="*{fromLocation}">
+	    	          	 <option th:each="destination : ${destinations}" th:value="${destination}" th:text="${destination}">Reason</option>
+	    	   		     </select>
+	    	     	     <label th:if="${#fields.hasErrors('fromLocation')}"  th:errors="*{fromLocation}"  class="form-control alert alert-danger">Error in Reason</label></td>
+					</div>
+					<div class="form-group">
+					<label for="toLocation">To</label>:
+						 <select class="form-control" th:field="*{toLocation}">
+	    	             <option th:each="destination : ${destinations}" th:value="${destination}" th:text="${destination}">Reason</option>
+	    	             </select>
+	    	             <label th:if="${#fields.hasErrors('toLocation')}"  th:errors="*{toLocation}"  class="form-control alert alert-danger">Error in Reason</label></td>
+					</div>
+					<div class="form-group">
+						<label for="departureDate">Departure date</label>:
+						<input class="form-control" type="date" th:field="*{departureDate}" />
+			        	<label th:if="${#fields.hasErrors('departureDate')}"  th:errors="*{departureDate}"  class="form-control alert alert-danger">Error in Email address</label>
+					</div>
+					<div class="form-group">
+						<label for="arrivalDate">Arrival date</label>:
+						<input class="form-control" type="date" th:field="*{arrivalDate}" />
+						<label th:if="${#fields.hasErrors('arrivalDate')}"  th:errors="*{arrivalDate}"  class="form-control alert alert-danger">Error in Email address</label>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="submit" name="login-submit" id="login-submit"
+									class="form-control btn btn-primary" value="Create trip" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+	     <footer th:replace="template::main-footer"></footer>
+	</body>
+</html>

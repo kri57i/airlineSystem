@@ -1,0 +1,16 @@
+@charset "ISO-8859-1";
+.error{
+    color: red;
+    font-size: 15px;
+}
+.user{
+    color: blue;
+    font-size: 15px;
+}
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: none;
+}

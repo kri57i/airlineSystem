@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Trip details</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+         <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+          <link rel="stylesheet" th:href="@{/css/main.css}"/>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
+	
+<header th:replace="template::user-header"></header> 
+ 
+
+ 	<h1>Trip details</h1>
+	     <form:form>
+<table class="table table-striped table-dark" id="t01" border="2" width="70%" cellpadding="2">
+<tr><th>Reason</th><th>Description</th>
+<th>From</th><th>To</th><th>Departure</th><th>Arrival</th><th>Status</th>
+<th>Flight</th><th>My flights</th>
+</tr>  
+<!-- The "employees" list passed as an attribute from the getAllEmployees() method -->
+    <tr th:each="currentTrip : ${trip}"> 
+   <td th:text="${currentTrip.reason}"></td>
+   <td th:text="${currentTrip.description}"></td>
+   <td th:text="${currentTrip.fromLocation}"></td>
+   <td th:text="${currentTrip.toLocation}"></td>
+   <td th:text="${currentTrip.departureDate}"></td>
+   <td th:text="${currentTrip.arrivalDate}"></td>
+   <td th:text="${currentTrip.status}"></td>
+   <div th:if="${currentTrip.status == 'APPROVED'}">
+    <td><a th:href="@{'/attachFlight/' + ${currentTrip.id}}" class="btn btn-outline-warning">Add flight</a></td> 
+    </div> 
+    <div th:if="${currentTrip.status != 'APPROVED'}">
+    	<td>Can't add flights</td>
+    </div>
+    <div th:if="${currentTrip.status == 'APPROVED'}">
+    	<td><a th:href="@{'/viewTripFlights/' + ${currentTrip.id}}" class="btn btn-outline-secondary">View flights</a></td>
+    </div>
+    <div th:if="${currentTrip.status != 'APPROVED'}">
+    	<td>No flights</td>
+    </div>
+   </tr>  
+   <tr>
+   </tr>
+   </table>  
+   <br/>
+   </form:form>
+	     
+	     <div th:object="${trip}" th:if="${trip.status == 'CREATED'}">
+	     	<div class="container" align="center">
+	     		<a th:href="@{'/sendApproval/' + ${trip.id}}" class="btn btn-info">Send approval</a>
+	     	</div>
+	     </div>
+	     <div th:object="${trip}" th:if="${trip.status == 'REJECTED'}">
+	     	<div class="container" align="center">
+	     		<a th:href="@{'/sendApproval/' + ${trip.id}}" class="btn btn-info">Resend approval</a>
+	     	</div>
+	     </div>
+	     <footer th:replace="template::main-footer"></footer>
+</body>
+</html>

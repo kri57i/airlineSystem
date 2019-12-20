@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>List of booked flights</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+         <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+          <link rel="stylesheet" th:href="@{/css/main.css}"/>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<title>Insert title here</title>
+</head>
+<body th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
+
+<header th:replace="template::user-header"></header> 
+
+<div th:object="${numberOfFlights}" th:if="${numberOfFlights == 0}">
+	<div class="container">
+		<h1 align="center">No flights available for trip number <span th:text="${tripId}"></span></h1>	
+	</div>
+</div>
+
+<div th:object="${numberOfFlights}" th:if="${numberOfFlights > 0}">
+	<h1 align="center">List of flights for trip number <span th:text="${tripId}"></span></h1>
+<form:form>
+<table class="table table-striped table-dark" id="t01" border="2" width="70%" cellpadding="2">
+<tr><th>From</th>
+<th>To</th><th>Departure date</th><th>Arrival date</th>
+<th>User</th><th>Trip id</th><th>View Details</th><th>Delete</th>
+    <tr th:each="flight : ${flights}"> 
+   <td th:text="${flight.departingLocation}"></td>
+   <td th:text="${flight.finalLocation}"></td>
+   <td th:text="${flight.startingDate}"></td>
+   <td th:text="${flight.endingDate}"></td>
+   <td th:text="${flight.username}"></td>
+   <td th:text="${tripId}"></td>
+	
+	<td><a th:href="@{'/viewFlightDetails/' + ${flight.id}}" class="btn btn-outline-primary">Details</a></td>
+
+    <td><a th:href="@{'/deleteFlight/' + ${flight.id}}" class="btn btn-outline-danger">Delete</a></td>
+   </tr>  
+   </table>  
+   <br/>
+   </form:form>
+   </div>
+   <footer th:replace="template::main-footer"></footer>
+</body>
+</html>

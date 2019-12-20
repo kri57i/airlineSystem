@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/styles.css}"/>
+         <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+          <link rel="stylesheet" th:href="@{/css/main.css}"/>
+           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<title>Home</title>
+</head>
+<body th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
+<header th:replace="template::user-header"></header><br>
+
+
+	<div th:if="${currentEmail == 'admin@gmail.com'}">
+	<div class="container">
+		 <div class="alert alert-secondary" role="alert">
+		  <h4 class="alert-heading">INFO!</h4>
+		  <p>This is the administrator homepage.</p>
+		  <hr>
+		  <p class="mb-0">Only system administrator has access to the functionalities this dashboard offers.</p>
+	</div>
+		<div class="container" align="center">
+			<a href="/admin" class="btn btn-outline-dark">System management</a>
+		</div>
+	</div>
+	</div>
+
+	<br>
+	<br>
+	<div th:if="${currentEmail != 'admin@gmail.com'}">
+		<div class="container">
+			<p>
+				<li sec:authorize="isAuthenticated()">Welcome, <span th:text="${currentUser.firstName}"></span>
+				<span th:text="${currentUser.lastName}"></span>
+			</p>
+		</div>
+	</div>
+
+</div>
+	<footer th:replace="template::main-footer"></footer>
+</body>
+</html>
