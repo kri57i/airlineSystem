@@ -48,8 +48,13 @@ public class UserServiceImplementation implements UserService{
 		return userRepository.findByEmail(email);
 	}
 	
+	/*
+	 * The following method saves a user with the properties that are passed from the 
+	 * registration dto
+	 */
 	public User save(UserRegistrationDto registration) {
 		User user = new User();
+		//creating a record for the user login times statistics
 		UserLogins currentUser = new UserLogins();
 		currentUser.setUsername(registration.getEmail());
 		userLoginsService.save(currentUser);
@@ -58,10 +63,12 @@ public class UserServiceImplementation implements UserService{
 		user.setEmail(registration.getEmail());
 		user.setCreatedAt(new Date());
 		user.setPassword(passwordEncoder.encode(registration.getPassword()));
+		//setting the user role
 		user.setRoles(Arrays.asList(new Role("ROLE_USER")));
 		return userRepository.save(user);
 	}
 	
+	//the following method deletes a user and also all his/her trips, flights
 	public ModelAndView deleteUser(@PathVariable String email) {
 		User user = this.findByEmail(email);
 		user.setToDate(new Date());
@@ -73,6 +80,7 @@ public class UserServiceImplementation implements UserService{
 		return new ModelAndView("redirect:/admin");
 	}
 	
+	//the following method activates a deactivated user account 
 	public ModelAndView activateAccount(@PathVariable String email) {
 		User user = userRepository.findDeactivatedUser(email);
 		user.setToDate(null);
@@ -103,12 +111,15 @@ public class UserServiceImplementation implements UserService{
 		return reasons;
 	}
 	
+	//overriding the loadUserByUsername method
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);
+		//if the user is not found
 		if(user == null) {
 			throw new UsernameNotFoundException("Invalid username or password!");
 		}
+		//incrementing login times only for non-admin users
 		if(!user.getEmail().equals("admin@gmail.com")) {
 		userLoginsService.incrementUserLogin(userLoginsService.getRecordFromUser(email).getLoginTimes() + 1, email);
 		}
@@ -117,11 +128,13 @@ public class UserServiceImplementation implements UserService{
 				mapRolesToAuthorities(user.getRoles()));
 	}
 	
+	//returning the email of the currently logged in user
 	public String getCurrentUserName() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth.getName();
 	}
 	
+	//getting a list of all users
 	public List<User> getAll() {
 		return userRepository.getAllUsers();
 	}

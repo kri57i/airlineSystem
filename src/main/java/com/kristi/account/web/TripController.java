@@ -37,6 +37,7 @@ public class TripController {
 	
 	Logger logger = LoggerFactory.getLogger(TripController.class);
 	
+	//loading the trip creating view 
 	@GetMapping("/createTrip")
 	public String createTrip(Model model) {
 		model.addAttribute("trip", new Trip());
@@ -44,35 +45,41 @@ public class TripController {
 		return "/home/createTrip";
 	}
 	
+	//adding the current user as an attribute
 	@ModelAttribute("currentEmail")
 	public String getCurrentUsername() {
 		return userService.getCurrentUserName();
 	}
 	
+	//loading the trip editing view
 	@GetMapping("/editTrip")
 	public String editTrip(Model model) {
 		logger.info("Loading the trip editing view via the editTrip() method");
 		return "/home/editTrip";
 	}
 	
+	//loading the view that shows all the trips of the current user
 	@GetMapping("/viewTrips")
 	public ModelAndView viewTrips(ModelMap model) {
 		logger.info("Attempting to view all the trips of the current user");
 		return tripService.getAllTripsOfUser(userService.getCurrentUserName(), model);
 	}
 	
+	//loading the view that shows all the trips with the "WAITING FOR APPROVAL" status
 	@GetMapping("/tripRequests")
 	public ModelAndView tripRequests(Model model) {
 		logger.info("Fetching all the trip requests from all the users");
 		return tripService.getAllTrips();
 	}
 	
+	//loading the view alongside with the trip details of the given trip
 	@GetMapping("/tripDetails/{tripId}") 
 	public ModelAndView tripDetails(@PathVariable long tripId) {
 		logger.info("Redirecting to trip details of the selected trip request");
 		return tripService.tripDetails(tripId);
 	}
 	
+	//loading the trip creating success view 
 	@GetMapping("/tripSuccess")
 	public String tripSuccess(Model model) {
 		logger.info("Success creating trip");
@@ -89,6 +96,7 @@ public class TripController {
 		return destinationService.getAllDestinations();
 	}
 	
+	//the following url is the action url of the trip creating form
 	@RequestMapping(value = "/saveTrip", 
 			method = RequestMethod.POST)
 	public String saveTripRegistration(@Valid Trip trip, 
@@ -96,8 +104,12 @@ public class TripController {
 			ModelMap model,
 			String currentUser) {
 		logger.info("Success registering trip");
-		return tripService.saveTripRegistration(trip, result, model,  userService.getCurrentUserName());
+		return tripService.saveTripRegistration(trip, 
+				result, 
+				model,  
+				userService.getCurrentUserName());
 	}
+	
 	
 	@RequestMapping(value = "/editTrip/{tripId}")
 	public String editTrip(@PathVariable long tripId, ModelMap model) {
@@ -105,6 +117,7 @@ public class TripController {
 		return tripService.editTrip(tripId, model);
 	}
 	
+	//the following url is the form action of the edit trip form
 	@RequestMapping(value = "/editAndSaveTrip", 
 			method = RequestMethod.POST)
 	public ModelAndView editAndSave(@Valid @ModelAttribute("trip") Trip trip, 
@@ -113,6 +126,7 @@ public class TripController {
 		return tripService.editAndSaveTrip(trip, result);
 	}
 	
+	//the following url mapping invokes the delete trip method of the trip service 
 	@RequestMapping(value = "/deleteTrip/{tripId}", 
 			method = RequestMethod.GET)
 	public ModelAndView deleteTrip(@PathVariable long tripId) {
@@ -120,6 +134,7 @@ public class TripController {
 		return tripService.deleteTrip(tripId);
 	}
 	
+	//loading the details view for the given trip
 	@RequestMapping(value = "/viewDetails/{tripId}", 
 			method = RequestMethod.GET)
 	public ModelAndView viewDetails(@PathVariable long tripId) {
@@ -127,6 +142,7 @@ public class TripController {
 		return tripService.viewDetails(tripId);
 	}
 	
+	//the following url mapping sends an approval for the given trip
 	@RequestMapping(value = "/sendApproval/{tripId}", 
 			method = RequestMethod.GET)
 	public ModelAndView sendApproval(@PathVariable long tripId) {
@@ -134,6 +150,7 @@ public class TripController {
 		return tripService.sendApproval(tripId);
 	}
 	
+	//the following url approves the given trip(only from administrator side)
 	@RequestMapping(value = "/approveTrip/{tripId}", 
 			method = RequestMethod.GET)
 	public ModelAndView approveTrip(@PathVariable long tripId) {
@@ -141,6 +158,7 @@ public class TripController {
 		return tripService.approveTrip(tripId);
 	}
 	
+	//the following url rejects the given trip(only from administrator side)
 	@RequestMapping(value = "/rejectTrip/{tripId}", 
 			method = RequestMethod.GET)
 	public ModelAndView rejectTrip(@PathVariable long tripId) {

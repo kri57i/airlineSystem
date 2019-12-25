@@ -8,6 +8,9 @@ import javax.persistence.Id;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+/*
+ * Role entity that will hold an id and role name
+ */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Role {
@@ -19,6 +22,7 @@ public class Role {
 	
 	public Role() {}
 	
+	//Standard getters and setters
 	public Role(String name) {
 		this.name = name;
 	}
@@ -43,6 +47,5 @@ public class Role {
 	public String toString() {
 		return "Role [id=" + id + ", name=" + name + "]";
 	}
-	
-	
+
 }

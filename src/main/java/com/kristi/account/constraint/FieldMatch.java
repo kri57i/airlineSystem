@@ -10,6 +10,9 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/*
+ * The following annotation will help with the confirmation of two fields(password/confirm and email/confirm)
+ */
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = FieldMatchValidator.class)

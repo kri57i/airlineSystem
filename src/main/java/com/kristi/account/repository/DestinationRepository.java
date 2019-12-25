@@ -11,9 +11,13 @@ import com.kristi.account.model.Destination;
 
 public interface DestinationRepository extends JpaRepository<Destination, Long>{
 
+	/*
+	 * The following query returns a list of strings, containing all the destinations
+	 */
 	@Query(value = "SELECT destination_name FROM destination", 
 			nativeQuery = true)
 	List<String> getAllDestinations();
+	
 	
 	@Query(value = "SELECT destination_name FROM destination "
 			+ "WHERE NOT destination_name = :from_location AND NOT destination_name = :to_location", 

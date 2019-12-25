@@ -10,11 +10,11 @@
          <link rel="stylesheet" th:href="@{/css/custom.css}"/>
           <link rel="stylesheet" th:href="@{/css/main.css}"/>
            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+			  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+			  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <title>Home</title>
 </head>
-<body th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
 <header th:replace="template::user-header"></header><br>
 
 
@@ -31,18 +31,20 @@
 		</div>
 	</div>
 	</div>
-
 	<br>
 	<br>
 	<div th:if="${currentEmail != 'admin@gmail.com'}">
 		<div class="container">
-			<p>
-				<li sec:authorize="isAuthenticated()">Welcome, <span th:text="${currentUser.firstName}"></span>
-				<span th:text="${currentUser.lastName}"></span>
-			</p>
-		</div>
+		<div class="alert alert-dark" role="alert">
+			  <h4 class="alert-heading"><div sec:authorize="isAuthenticated()"> Welcome back, <span th:text="${currentUser.firstName}"></span>
+				<span th:text="${currentUser.lastName}"></span></div></h4>
+			  <p>We are so glad to have you back on our website, where you can create, customize and book 
+			  any trip or flight you want.</p>
+			  <hr>
+			  <p class="mb-0">And may you always remember, our clear intention is to give our users their best flying experience ever!</p>
+			  <p class="mb-0">Enjoy yourself!</p>
 	</div>
-
+	</div>
 </div>
 	<footer th:replace="template::main-footer"></footer>
 </body>

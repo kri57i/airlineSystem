@@ -13,11 +13,16 @@ import org.springframework.data.annotation.CreatedDate;
 
 import com.kristi.account.constraint.FieldMatch;
 
+//checking if the email, email confirmation/password, password confirmation fields match
 @FieldMatch.List({
 	@FieldMatch(first = "password", second = "confirmPassowrd", message = "The password fields must match"),
 	@FieldMatch(first = "email", second = "confirmEmail", message = "The email fields must match")
 })
 
+
+/*
+ * User registration data transfer object
+ */
 public class UserRegistrationDto {
 
 	@NotEmpty
@@ -48,6 +53,7 @@ public class UserRegistrationDto {
 	@AssertTrue
 	private Boolean terms;
 
+	//standard getters and setters
 	public String getFirstName() {
 		return firstName;
 	}

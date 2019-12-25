@@ -21,6 +21,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
+/*
+ * Flight entity, that will keep instances of flights booked by users
+ */
 @Entity
 @Table(name = "flight")
 @EntityListeners(AuditingEntityListener.class)
@@ -60,19 +64,28 @@ public class Flight {
 	 @Temporal(TemporalType.DATE)
      private Date toDate;
 	 
+	 /*
+	  * A flight has a many to one relationship to trip entity,
+	  * which means that multiple flights can belong to a single trip
+	  */
 	 @ManyToOne(cascade = CascadeType.ALL)
 	 @JoinColumn(name = "trip_id")
 	 private Trip trip;
 	 
+	 /*
+	  * A flight has a many to one relationship to FlightTemplate entity,
+	  * which means that multiple flights can belong to a single flight template
+	  */
 	 @ManyToOne(cascade = CascadeType.ALL)
 	 @JoinColumn(name = "flight_template_id")
 	 private FlightTemplate flightTemplate;
 	 
+	 // Flight user
 	 @Column(name = "user")
 	 private String username;
 	 
 
-	 
+	 //Standard getters and setters
 	public FlightTemplate getFlightTemplate() {
 		return flightTemplate;
 	}
@@ -152,7 +165,5 @@ public class Flight {
 	public void setTrip(Trip trip) {
 		this.trip = trip;
 	}
-	 
-	 
-	 
+	
 }

@@ -22,29 +22,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		 http
          .authorizeRequests()
-         .antMatchers("/admin/**").hasRole("ADMIN")
-         .antMatchers("/registration").hasRole("ADMIN")
-         .antMatchers("/userRegistrationSuccess/**").hasRole("ADMIN")
-         .antMatchers("/createFlightTemplate/**").hasRole("ADMIN")
-         .antMatchers("/flightTemplateSuccess/**").hasRole("ADMIN")
-         .antMatchers("/tripRequests/**").hasRole("ADMIN")
-         .antMatchers("/tripDetails/**").hasRole("ADMIN")
-         .antMatchers("/tripRequests/**").hasRole("ADMIN")
-         .antMatchers("/viewFlights/**").hasRole("ADMIN")
-         .antMatchers("/viewUsersOfFlight/**").hasRole("ADMIN")
-         .antMatchers("/viewActivity").hasRole("ADMIN")
-         .antMatchers("/approvalSent/**").hasRole("USER")
-         .antMatchers("/attachFlight/**").hasRole("USER")
-         .antMatchers("/flightBookingSuccess/**").hasRole("USER")
-         .antMatchers("/viewDetails/**").hasRole("USER")
-         .antMatchers("/viewFlightDetails/**").hasRole("USER")
-         .antMatchers("/viewTripFlights/**").hasRole("USER")
-         .antMatchers("/createTrip/**").hasRole("USER")
-         .antMatchers("/tripSuccess/**").hasRole("USER")
-         .antMatchers("/editTrip/**").hasRole("USER")
-         .antMatchers("/viewTrips/**").hasRole("USER")
-         .antMatchers("/createFlight/**").hasRole("USER")
-         .antMatchers("/activateUser/**").hasRole("ADMIN")
+         .antMatchers("/admin/**", 
+        		 "/registration",
+        		 "/userRegistrationSuccess/**",
+        		 "/createFlightTemplate/**",
+        		 "/flightTemplateSuccess/**",
+        		 "/tripRequests/**",
+        		 "/tripDetails/**",
+        		 "/tripRequests/**",
+        		 "/viewFlights/**",
+        		 "/viewUsersOfFlight/**",
+        		 "/viewActivity",
+        		 "/activateUser/**"
+        		 ).hasRole("ADMIN")
+         .antMatchers("/approvalSent/**", 
+        		 "/attachFlight/**", 
+        		 "/flightBookingSuccess/**",
+        		 "/viewDetails/**",
+        		 "/viewFlightDetails/**",
+        		 "/viewTripFlights/**",
+        		 "/createTrip/**",
+        		 "/tripSuccess/**",
+        		 "/editTrip/**",
+        		 "/viewTrips/**"
+        		 ).hasRole("USER")
              .antMatchers(
                      "/js/**",
                      "/css/**",
@@ -65,7 +66,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
          .permitAll();
 		}
 	
-
+	/*
+	 * Password encrypting class
+	 */
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

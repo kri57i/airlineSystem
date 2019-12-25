@@ -19,6 +19,7 @@ public class DateValidator {
 	
 	public DateValidator() {}
 	
+	//Checking if the departure date is valid
 	public boolean validDepartureDate(Date departureDate) {
 		if(departureDate.before(new Date())) {
 			return false;
@@ -26,6 +27,7 @@ public class DateValidator {
 		return true;
 	}
 	
+	//Checking if the dates match
 	public boolean matchingDates(Date departureDate, Date arrivalDate) {
 		if(departureDate.equals(arrivalDate)) {
 			return true;
@@ -33,6 +35,7 @@ public class DateValidator {
 		return false;
 	}
 	
+	//Checking if the arrival date is valid
 	public boolean validArrivalDate(Date arrivalDate) {
 		if(arrivalDate.before(new Date())) {
 			return false;
@@ -40,6 +43,7 @@ public class DateValidator {
 		return true;
 	}
 	
+	//Checking if the arrival date is before the departure date
 	public boolean inverseValues(Date departureDate, Date arrivalDate) {
 		if(arrivalDate.before(departureDate)) {
 			return true;
@@ -47,6 +51,7 @@ public class DateValidator {
 		return false;
 	}
 	
+	//Making the validations for flight and trip dates
 	public boolean validFlightDepartureDate(Date flightDepartureDate, 
 			Date tripDepartureDate) {
 		if(flightDepartureDate.equals(tripDepartureDate) 
@@ -73,6 +78,15 @@ public class DateValidator {
 		return true;
 	}
 	
+	public boolean tripFlightMatchingDates(FlightTemplate flight, Trip trip) {
+		if(flight.getDepartingDate().equals(trip.getDepartureDate()) && 
+				flight.getArrivingDate().equals(trip.getArrivalDate())) {
+			return true;
+		}
+		return false;
+	}
+	
+	//Checking if the given flight template has already been booked
 	public boolean previouslyBooked(long flightTemplateId, String username) {
 		if(flightRepository.getUserFlightsOfTemplate(flightTemplateId, username).isEmpty()) {
 			return true;

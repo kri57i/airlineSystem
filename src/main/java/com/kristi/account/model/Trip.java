@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -23,7 +22,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
-
+/*
+ * Trip entity, that holds trip instances created by users
+ */
 @Entity
 @Table(name = "trip")
 @EntityListeners(AuditingEntityListener.class)
@@ -53,11 +54,13 @@ public class Trip {
 	 
 	 @Column(nullable = false, name = "departure_date")
 	 @DateTimeFormat(pattern = "yyyy-MM-dd")
+	 @Temporal(TemporalType.DATE)
 	 @NotNull(message = "Departure date must not be empty")
 	 private Date departureDate;
 	 
 	 @Column(nullable = false, name = "arrival_date")
 	 @DateTimeFormat(pattern = "yyyy-MM-dd")
+	 @Temporal(TemporalType.DATE)
 	 @NotNull(message = "Arrival date must not be empty")
 	 private Date arrivalDate;
 	 
@@ -69,18 +72,22 @@ public class Trip {
      @Column(name = "to_date")
      private Date toDate;
      
+     /*
+      * Id of the user that has created the trip
+      */
      @ManyToOne(cascade = CascadeType.ALL)
  	 @JoinColumn(name = "user_id")
  	 private User user;
      
-
+     //name of the user that created the trip 
      @Column(nullable = false, name = "trip_user")
      private String username;
      
+     //trip status
      @Column(nullable = false, name = "trip_status")
      private String status;
 
-     
+   //Standard getters and setters
 	public Date getToDate() {
 		return toDate;
 	}
@@ -176,6 +183,5 @@ public class Trip {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-     
      
 }

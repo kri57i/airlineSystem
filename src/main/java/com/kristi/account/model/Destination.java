@@ -11,11 +11,16 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+/*
+ * Entity for destinations that will be available
+ * while creating a trip or flight template
+ */
 @Entity
 @Table(name = "destination")
 @EntityListeners(AuditingEntityListener.class)
 public class Destination {
 
+	//Instance variables
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 private Long id;
@@ -24,6 +29,7 @@ public class Destination {
 	 @NotEmpty
 	 private String destinationName;
 
+	 //Standard getters and setters
 	public Long getId() {
 		return id;
 	}
@@ -39,6 +45,4 @@ public class Destination {
 	public void setDestinationName(String destinationName) {
 		this.destinationName = destinationName;
 	}
-	 
-	 
 }

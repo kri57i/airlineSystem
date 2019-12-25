@@ -3,26 +3,19 @@ package com.kristi.account.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kristi.account.model.Flight;
 import com.kristi.account.model.FlightTemplate;
-import com.kristi.account.model.Trip;
 import com.kristi.account.repository.FlightRepository;
 import com.kristi.account.repository.FlightTemplateRepository;
 import com.kristi.account.repository.TripRepository;
 import com.kristi.account.validators.AccessValidators;
-import com.kristi.account.validators.DateValidator;
-import com.kristi.account.validators.LocationValidator;
 
 @Service
 public class FlightService {
@@ -38,15 +31,6 @@ public class FlightService {
 	private AccessValidators accessValidator;
 	
 	@Autowired
-	private DestinationService destinationService;
-	
-	@Autowired
-	private DateValidator dateValidator;
-	
-	@Autowired
-	private LocationValidator locationValidator;
-	
-	@Autowired
 	private FlightTemplateRepository flightTemplateRepository;
 	
 	@Autowired
@@ -55,100 +39,32 @@ public class FlightService {
 	@Autowired
 	private UserService userService;
 	
+	/*
+	 * The following method saves a flight
+	 */
 	public Flight save(Flight flight) {
 		return flightRepository.save(flight);
 	}
 	
-	/*public ModelAndView saveFlightRegistration(@Valid Flight flight, 
-			BindingResult result, 
-			ModelMap model,
-			String currentUser, 
-			long tripId) {
-		if(result.hasErrors()) {
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(), 
-					tripRepository.findById(tripId).orElse(null).getToLocation()));
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		
-		if(!dateValidator.validFlightDepartureDate(flight.getStartingDate(), 
-				tripRepository.findById(tripId).orElse(null).getDepartureDate())) {
-			result.rejectValue("startingDate", null, "Flight departure date must be after trip's "
-					+ "departure date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(), 
-					tripRepository.findById(tripId).orElse(null).getToLocation()));
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		if(!dateValidator.validFlightArrivalDate(flight.getEndingDate(), 
-				tripRepository.findById(tripId).orElse(null).getArrivalDate())) {
-			result.rejectValue("endingDate", null, "Flight arrival date must be before trip's "
-					+ "arrival date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(), 
-					tripRepository.findById(tripId).orElse(null).getToLocation()));
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		if(dateValidator.matchingDates(flight.getStartingDate(), flight.getEndingDate())) {
-			result.rejectValue("endingDate", null, "Dates must not match");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(), 
-					tripRepository.findById(tripId).orElse(null).getToLocation()));
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		
-		if(dateValidator.inverseValues(flight.getStartingDate(), flight.getEndingDate())) {
-			result.rejectValue("startingDate", null, "Arrival date must be after departure date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(), 
-					tripRepository.findById(tripId).orElse(null).getToLocation()));
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		
-		if(!dateValidator.validDepartureDate(flight.getStartingDate())) {
-			result.rejectValue("startingDate", null, "Departure date must not be "
-					+ "before today's date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(), 
-					tripRepository.findById(tripId).orElse(null).getToLocation()));
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		
-		if(!dateValidator.validArrivalDate(flight.getEndingDate())) {
-			result.rejectValue("endingDate", null, "Arrival date must not be "
-					+ "before today's date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(), 
-					tripRepository.findById(tripId).orElse(null).getToLocation()));
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		if(locationValidator.matchingLocations(flight.getDepartingLocation(), 
-				flight.getFinalLocation())) {
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(tripId).orElse(null).getFromLocation(),
-					tripRepository.findById(tripId).orElse(null).getToLocation()
-					));
-			result.rejectValue("finalLocation", null, "Locations must not match!");
-			return new ModelAndView("/home/createFlight", "tripId", tripId);
-		}
-		flight.setUsername(currentUser);
-		flight.setCreatedAt(new Date());
-		flight.setTrip(tripRepository.findById(tripId).orElse(null));
-		this.save(flight);
-		model.addAttribute("flight", flight);
-		model.addAttribute("tripId", flight.getTrip().getId());
-		return new ModelAndView("/home/flightSuccess");
-	}*/
-	
+	/*
+	 * The following function saves a flight and returns the flight booking success
+	 * template
+	 */
 	public ModelAndView bookFlight(long flightTemplateId, 
 			ModelMap model, 
 			String currentUser, 
 			long tripId) {
+		/*
+		 * The following condition checks whether the user who has created the trip is the same as 
+		 * the user who is currently logged in
+		 */
 		if(!accessValidator.matchingUsers(userService.getCurrentUserName(), 
 				tripRepository.findById(tripId).orElse(null).getUsername())) {
 			return new ModelAndView("/error");
 		}
+		//finding the flight template that will be attached to the flight
 		FlightTemplate currentFlightTemplate = flightTemplateRepository.findById(flightTemplateId).orElse(null);
+		//setting the properties of the flight
 		Flight flight = new Flight();
 		flight.setFlightTemplate(currentFlightTemplate);
 		flight.setCreatedAt(new Date());
@@ -158,30 +74,47 @@ public class FlightService {
 		flight.setStartingDate(currentFlightTemplate.getDepartingDate());
 		flight.setTrip(tripRepository.findById(tripId).orElse(null));
 		flight.setUsername(currentUser);
+		//incrementing the capacity in the flight template
 		flightTemplateService.updateCapacity(currentFlightTemplate.getCurrentCapacity() + 1, 
 				currentFlightTemplate.getId());
 		this.save(flight);
+		//passing the flight as an attribute to the thymeleaf view
 		model.addAttribute("flight", flight);
+		//passing the trip id as an attribute to the thymeleaf view
 		model.addAttribute("tripId", flight.getTrip().getId());
+		//heading to flight booking success template
 		return new ModelAndView("/home/flightBookingSuccess");
 	}
 	
+	/*
+	 * The following function gets a trip id and returns a list of flights 
+	 * belonging to that trip
+	 */
 	public ModelAndView getAllFlightsOfTrip(@PathVariable 
 			long tripId, 
 			Model model) {
+		/*
+		 * The following condition checks whether the user who has created the trip is the same as 
+		 * the user who is currently logged in
+		 */
 		if(!accessValidator.matchingUsers(userService.getCurrentUserName(), 
 				tripRepository.findById(tripId).orElse(null).getUsername())) {
 			return new ModelAndView("/error");
 		}
 		List<Flight> flights = flightRepository.getAllFlightsOfTrip(tripId);
 		model.addAttribute("numberOfFlights", flights.size());
+		//adding the list as an object at the thymeleaf view
 		return new ModelAndView("/home/viewTripFlights", "flights", flights);
 	}
 	
+	//calling the getAllFlightsOfTrip method of the flight repository
 	public List<Flight> getAllFlightsOfTrip(long tripId) {
 		return flightRepository.getAllFlightsOfTrip(tripId);
 	}
 	
+	/*
+	 * The following method returns a flight details view alongside with the flight object
+	 */
 	public ModelAndView viewFlightDetails(@PathVariable long flightId) {
 		if(!accessValidator.matchingUsers(userService.getCurrentUserName(), 
 				flightRepository.findById(flightId).orElse(null).getUsername())) {
@@ -191,92 +124,10 @@ public class FlightService {
 		return new ModelAndView("/home/viewFlightDetails", "flight", flight);
 	}
 	
-	/*public String editFlight(@PathVariable long flightId, ModelMap model, 
-			@ModelAttribute("currentEmail") String currentEmail) {
-		if(!accessValidator.matchingUsers(currentEmail, flightRepository.findById(flightId)
-				.orElse(null).getUsername())) {
-			return "/home/error";
-		}
-		Flight flight = flightRepository.findById(flightId).orElse(null);
-		model.addAttribute("flight", flight);
-		model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-				tripRepository.findById(flight.getTrip().getId()).orElse(null).getFromLocation(), 
-				tripRepository.findById(flight.getTrip().getId()).orElse(null).getToLocation()));
-		return "/home/editFlight";
-	} */
-	
-	/*public ModelAndView editAndSaveFlight(@Valid @ModelAttribute("flight") Flight flight, 
-			BindingResult result, ModelMap model) {
-		Flight currentFlight = flightRepository.findById(flight.getId()).orElse(null);
-		if(result.hasErrors()) {
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-		if(dateValidator.matchingDates(flight.getStartingDate(), flight.getEndingDate())) {
-			result.rejectValue("endingDate", null, "Dates must not match");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-		if(!dateValidator.validArrivalDate(flight.getEndingDate())) {
-			result.rejectValue("endingDate", null, "Arrival date must not be before today's date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-		if(!dateValidator.validDepartureDate(flight.getStartingDate())) {
-			result.rejectValue("startingDate", null, "Departure date must not be before today's date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-
-		if(dateValidator.inverseValues(flight.getStartingDate(), flight.getEndingDate())) {
-			result.rejectValue("endingDate", null, "Arrival date must not be before departure date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-		if(!dateValidator.validFlightDepartureDate(flight.getStartingDate(), 
-				currentFlight.getTrip().getDepartureDate())) {
-			result.rejectValue("startingDate", null, "Flight departure date must be after trip's "
-					+ "departure date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-		if(!dateValidator.validFlightArrivalDate(flight.getEndingDate(), 
-				currentFlight.getTrip().getArrivalDate())) {
-			result.rejectValue("endingDate", null, "Flight arrival date must be before trip's "
-					+ "arrival date");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-		if(locationValidator.matchingLocations(flight.getDepartingLocation(), 
-				flight.getFinalLocation())) {
-			result.rejectValue("finalLocation", null, "Locations must not match!");
-			model.addAttribute("destinations", destinationService.getAllAvailableDestinations(
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getFromLocation(), 
-					tripRepository.findById(currentFlight.getTrip().getId()).orElse(null).getToLocation()));
-			return new ModelAndView("/home/editFlight", "flight", flight);
-		}
-		currentFlight.setDepartingLocation(flight.getDepartingLocation());
-		currentFlight.setFinalLocation(flight.getFinalLocation());
-		currentFlight.setStartingDate(flight.getStartingDate());
-		currentFlight.setEndingDate(flight.getEndingDate());
-		this.save(currentFlight);
-		return new ModelAndView("redirect:/viewFlights/" + currentFlight.getTrip().getId());
-	}*/
-	
+	/*
+	 * The following method decrements the passenger number with 1 
+	 * on each flight of the user(passenger)
+	 */
 	public void removeUserNumberFromTemplate(String current_user) {
 		List<Flight> flightsOfUser = flightRepository.getAllFlightsOfUser(current_user);
 		for(Flight flight : flightsOfUser) {
@@ -285,7 +136,14 @@ public class FlightService {
 		}
 	}
 	
+	/*
+	 * The following method deletes a flight
+	 */
 	public ModelAndView deleteFlight(@PathVariable long flightId) {
+		/*
+		 * The following condition checks whether the user who has created the trip is the same as 
+		 * the user who is currently logged in
+		 */
 		if(!accessValidator.matchingUsers(userService.getCurrentUserName(), 
 				flightRepository.findById(flightId).orElse(null).getUsername())) {
 			return new ModelAndView("/error");
@@ -293,27 +151,43 @@ public class FlightService {
 		Flight currentFlight = flightRepository.findById(flightId).orElse(null);
 		currentFlight.setToDate(new Date());
 		this.save(currentFlight);
-		flightTemplateService.removePassenger(currentFlight.getFlightTemplate().getCurrentCapacity() - 1, 
+		flightTemplateService.removePassenger(currentFlight
+				.getFlightTemplate()
+				.getCurrentCapacity() - 1, 
 				currentFlight.getFlightTemplate().getId());
 		return new ModelAndView("redirect:/viewTripFlights/" + currentFlight.getTrip().getId());
 	}
 	
+	//The following method deletes all the flights of the trip with the given id
 	public void deleteFlightsOfTrip(Date new_date, long tripId) {
 		flightRepository.deleteFlightsOfTrip(new_date, tripId);
 	}
 	
+	//The following method deletes all the flights of the user with the given email
 	public void deleteFlightsOfUser(String flight_user) {
 		flightRepository.deleteFlightsOfUser(flight_user, new Date());
 	}
 	
+	/*
+	 * The following method deletes all the flights that belong to the flight template that 
+	 * is being deleted by the administrator
+	 */
 	public void deleteAllFlightsOfTemplate(Date new_date, 
 			String template_departing_location, 
 			String template_arriving_location, 
 			Date template_starting_date, 
 			Date template_ending_date) {
-		flightRepository.deleteAllFlightsOfTemplate(new_date, template_departing_location, template_arriving_location, template_starting_date, template_ending_date);
+		flightRepository.deleteAllFlightsOfTemplate(new_date, 
+				template_departing_location, 
+				template_arriving_location, 
+				template_starting_date, 
+				template_ending_date);
 	}
 	
+	/*
+	 * The following method returns a list of flights that belong to the flight template
+	 * with the given id
+	 */
 	public List<Flight> getAllFlightsOfTemplate(long flightTemplateId) {
 		return flightRepository.getAllFlightsOfTemplate(flightTemplateId);
 	}

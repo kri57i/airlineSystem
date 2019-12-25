@@ -8,13 +8,12 @@
          <link rel="stylesheet" th:href="@{/css/custom.css}"/>
           <link rel="stylesheet" th:href="@{/css/main.css}"/>
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<title>Insert title here</title>
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<title>Trip success</title>
 </head>
-<body th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
 <header th:replace="template::user-header"></header> <br>
-
  	<div class="container">
  	<div class="alert alert-success" role="alert">
 		  <h4 class="alert-heading">Success!</h4>
@@ -26,7 +25,8 @@
 <tr><th>Reason</th><th>Description</th>
 <th>From</th><th>To</th><th>Departure</th><th>Arrival</th><th>User</th><th>Edit</th>
 </tr>  
-    <tr> 
+    <tr>
+    <!-- Displaying the properties of the just created trip --> 
    <td th:text="${trip.reason}"></td>
    <td th:text="${trip.description}"></td>
    <td th:text="${trip.fromLocation}"></td>
@@ -34,8 +34,7 @@
    <td th:text="${trip.departureDate}"></td>
    <td th:text="${trip.arrivalDate}"></td>
    <td th:text="${trip.username}"></td>
-   
-    <td><a th:href="@{'/sendApproval/' + ${trip.id}}" class="btn btn-outline-info">Send approval</a></td>
+    <td><a th:href="@{'/sendApproval/' + ${trip.id}}" class="btn btn-outline-info">Send approval request</a></td>
    </tr>  
    </table>  
    </div>

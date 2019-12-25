@@ -2,19 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Registration success </title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
-         <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+          <link rel="stylesheet" th:href="@{/css/custom.css}"/>
           <link rel="stylesheet" th:href="@{/css/main.css}"/>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     </head>
-	<body class = "text-center" th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
-
-
+<body class = "text-center" th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
 <header th:replace="template::admin-header"></header><br>
-
 		<div class="container">
  	<div class="alert alert-success" role="alert">
 		  <h4 class="alert-heading">Success!</h4>
@@ -26,6 +23,7 @@
 <th>Created At</th>
 </tr>  
     <tr> 
+    <!-- Displaying the details of the just registered user -->
    <td th:text="${currentUser.firstName}"></td> 
    <td th:text="${currentUser.lastName}"></td> 
    <td th:text="${currentUser.email}"></td>  

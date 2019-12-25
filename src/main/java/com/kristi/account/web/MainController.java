@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kristi.account.repository.UserRepository;
 import com.kristi.account.service.DestinationService;
 import com.kristi.account.service.UserLoginsService;
 import com.kristi.account.service.UserService;
@@ -32,9 +31,6 @@ public class MainController {
 	private DestinationService destinationService;
 	
 	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
 	private AccessValidators accessValidator;
 	
 	@Autowired
@@ -48,6 +44,7 @@ public class MainController {
 		return "home/index";
 	}
 	
+	//mapping to error template
 	@GetMapping("/error") 
 		public String error() {
 			return "/error";
@@ -72,7 +69,7 @@ public class MainController {
 		return "/admin/admin";
 	}
 	
-	
+	//loading the login view
 	@GetMapping("/login")
 	public String login(Model model) {
 		logger.info("Loading the login view");
@@ -85,12 +82,13 @@ public class MainController {
 		return "/admin/userRegistrationSuccess";
 	}
 	
-	
+	//initializing trip reasons
 	@ModelAttribute("reasons")
 	public List<String> initializeReasons() {
 		return userService.reasons();
 	}
 	
+	//initializing the destinations
 	@ModelAttribute("destinations")
 	public List<String> initializeDestinations() {
 		return destinationService.getAllDestinations();

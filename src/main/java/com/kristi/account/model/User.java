@@ -22,11 +22,19 @@ import javax.persistence.JoinColumn;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+
+/*
+ * User entity
+ */
 @Entity
+/*Setting the email field as unique
+ * Email will be used as a login credential
+ */
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
+	//Instance variables
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 private Long id;
@@ -40,6 +48,7 @@ public class User {
      @CreatedDate
 	 private Date createdAt;
 		
+	//Standard getters and setters
 	 public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -72,14 +81,21 @@ public class User {
 	  public User() {
 	    }
 
-	    public User(String firstName, String lastName, String email, String password) {
+	    public User(String firstName, 
+	    		String lastName, 
+	    		String email, 
+	    		String password) {
 	        this.firstName = firstName;
 	        this.lastName = lastName;
 	        this.email = email;
 	        this.password = password;
 	    }
 
-	    public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
+	    public User(String firstName, 
+	    		String lastName, 
+	    		String email, 
+	    		String password, 
+	    		Collection<Role> roles) {
 	        this.firstName = firstName;
 	        this.lastName = lastName;
 	        this.email = email;

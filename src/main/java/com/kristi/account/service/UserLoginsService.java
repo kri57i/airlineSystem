@@ -18,14 +18,17 @@ public class UserLoginsService {
 		return userLoginsRepository.save(userLogins);
 	}
 	
+	//the following method increments the login times number of the given user
 	public void incrementUserLogin(int new_login, String username) {
 		userLoginsRepository.incrementUserLogin(new_login, username);
 	}
 	
+	//returning the user logins record for the given user
 	public UserLogins getRecordFromUser(String username) {
 		return userLoginsRepository.getRecordFromUser(username);
 	}
 	
+	//getting a list of all users and their respective login times
 	public List<UserLogins> getAllLogins() {
 		return userLoginsRepository.getAllLogins();
 	}

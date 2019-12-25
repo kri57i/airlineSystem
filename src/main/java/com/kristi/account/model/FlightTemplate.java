@@ -13,11 +13,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
+/*
+ * Flight template entity, that will create instances of flight templates, that 
+ * can be booked by users
+ */
 @Entity
 @Table(name = "flight_template")
 @EntityListeners(AuditingEntityListener.class)
@@ -47,6 +50,9 @@ public class FlightTemplate {
 	 @NotNull
 	 private Date arrivingDate;
 	 
+	 /*
+	  * Maximum number of passengers that can book the current flight template
+	  */
 	 @Column(nullable = false, name = "maximum_capacity")
 	 private int maximumCapacity;
 	 
@@ -57,7 +63,7 @@ public class FlightTemplate {
 	 @Temporal(TemporalType.DATE)
      private Date toDate;
 	 
-	 
+	//Standard getters and setters
 	public int getMaximumCapacity() {
 		return maximumCapacity;
 	}

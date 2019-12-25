@@ -8,11 +8,11 @@
          <link rel="stylesheet" th:href="@{/css/custom.css}"/>
           <link rel="stylesheet" th:href="@{/css/main.css}"/>
            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<title>Insert title here</title>
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<title>Flight booking success</title>
 </head>
-<body th:style="'background:url('+ @{/img/background.jpg}+') fixed;'">
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
 <header th:replace="template::user-header"></header> <br>
 
  	<div class="container">
@@ -25,6 +25,7 @@
 <th>To</th><th>Departure date</th><th>Arrival date</th>
 <th>User</th><th>Trip id</th>
     <tr> 
+    <!-- Displaying the properties of the flight -->
    <td th:text="${flight.departingLocation}"></td>
    <td th:text="${flight.finalLocation}"></td>
    <td th:text="${flight.startingDate}"></td>
