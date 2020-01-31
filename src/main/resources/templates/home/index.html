@@ -14,7 +14,7 @@
 			  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <title>Home</title>
 </head>
-<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+')  fixed; background-repeat: no-repeat; background-size: cover; width: 100%; '">
 <header th:replace="template::user-header"></header><br>
 
 
@@ -33,19 +33,62 @@
 	</div>
 	<br>
 	<br>
-	<div th:if="${currentEmail != 'admin@gmail.com'}">
-		<div class="container">
-		<div class="alert alert-dark" role="alert">
-			  <h4 class="alert-heading"><div sec:authorize="isAuthenticated()"> Welcome back, <span th:text="${currentUser.firstName}"></span>
-				<span th:text="${currentUser.lastName}"></span></div></h4>
-			  <p>We are so glad to have you back on our website, where you can create, customize and book 
-			  any trip or flight you want.</p>
-			  <hr>
-			  <p class="mb-0">And may you always remember, our clear intention is to give our users their best flying experience ever!</p>
-			  <p class="mb-0">Enjoy yourself!</p>
-	</div>
-	</div>
-</div>
+		<div th:if="${currentEmail != 'admin@gmail.com'}">
+			<div class="container">
+			<div class="alert alert-dark" role="alert">
+				  <h4 class="alert-heading"><div sec:authorize="isAuthenticated()"> Welcome back, <span th:text="${currentUser.firstName}"></span>
+					<span th:text="${currentUser.lastName}"></span></div></h4>
+				  <p>We are so glad to have you back on our website, where you can create, customize and book
+				  any trip or flight you want.</p>
+				  <hr>
+				  <p class="mb-0">And may you always remember, our clear intention is to give our users their best flying experience ever!</p>
+				  <p class="mb-0">Enjoy yourself!</p>
+		</div>
+		</div>
+			<div class="container">
+				<h1>Statistics</h1>
+				<form:form>
+					<table class="table table-striped table-dark" id="t01" border="2" width="70%" cellpadding="2">
+						<tr><th>Section</th><th>Number of items</th><th>Action</th>
+						</tr>
+						<tr>
+							<td>Total trips</td>
+							<td th:text="${numberOfTrips}"></td>
+							<td><a th:href="@{/viewTrips}" class="btn btn-outline-primary">View</a></td>
+						</tr>
+						<div th:if="${currentEmail != 'admin@gmail.com'}">
+							<tr>
+								<td>Logins</td>
+								<td th:text="${loginTimes}"></td>
+								<td>No action available</td>
+							</tr>
+						</div>
+						<tr>
+							<td>Flights</td>
+							<td th:text="${numberOfFlights}"></td>
+							<td>No action available</td>
+						</tr>
+						<tr>
+							<td>Approved trips</td>
+							<td th:text="${approvedTrips}"></td>
+							<td>No action available</td>
+						</tr>
+						<tr>
+							<td>Rejected trips</td>
+							<td th:text="${rejectedTrips}"></td>
+							<td>No action available</td>
+						</tr>
+						<tr>
+							<td>Pending trips</td>
+							<td th:text="${pendingTrips}"></td>
+							<td>No action available</td>
+						</tr>
+					</table>
+					<br/>
+				</form:form>
+			</div>
+
+		</div>
 	<footer th:replace="template::main-footer"></footer>
 </body>
 </html>

@@ -1,12 +1,21 @@
 package com.kristi.account.web;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import com.kristi.account.model.Role;
+import com.kristi.account.model.User;
+import com.kristi.account.repository.TripRepository;
+import com.kristi.account.repository.UserRepository;
+import com.kristi.account.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kristi.account.service.DestinationService;
-import com.kristi.account.service.UserLoginsService;
-import com.kristi.account.service.UserService;
 import com.kristi.account.validators.AccessValidators;
 
 @Controller
@@ -35,12 +41,27 @@ public class MainController {
 	
 	@Autowired
 	private UserLoginsService userLoginsService;
+
+	@Autowired
+	private TripService tripService;
+
+	@Autowired
+	private FlightService flightService;
+
+	@Autowired
+	private TripRepository tripRepository;
 	
 	@GetMapping("/")
 	public String root(Model model) {
 		logger.info("Loading the main view");
 		model.addAttribute("currentUser", userService.findByEmail(
 				userService.getCurrentUserName()));
+		model.addAttribute("numberOfTrips", tripRepository.getAllTripsOfUser(userService.getCurrentUserName()).size());
+		model.addAttribute("numberOfFlights", flightService.getNumberOfFlightsOfUser(userService.getCurrentUserName()));
+		model.addAttribute("approvedTrips", tripService.getTripsNumberAccordingToStatus(userService.getCurrentUserName(), "APPROVED"));
+		model.addAttribute("rejectedTrips", tripService.getTripsNumberAccordingToStatus(userService.getCurrentUserName(), "REJECTED"));
+		model.addAttribute("pendingTrips", tripService.getTripsNumberAccordingToStatus(userService.getCurrentUserName(), "WAITING FOR APPROVAL"));
+		model.addAttribute("loginTimes", userLoginsService.getNumberOfLogins(userService.getCurrentUserName()));
 		return "home/index";
 	}
 	

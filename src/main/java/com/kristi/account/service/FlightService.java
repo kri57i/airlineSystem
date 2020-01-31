@@ -123,6 +123,13 @@ public class FlightService {
 		Flight flight = flightRepository.findById(flightId).orElse(null);
 		return new ModelAndView("/home/viewFlightDetails", "flight", flight);
 	}
+
+	/*
+	 *The following method returns the number of flights for the given user
+	 */
+	public int getNumberOfFlightsOfUser(String currentUser) {
+		return flightRepository.getAllFlightsOfUser(currentUser).size();
+	}
 	
 	/*
 	 * The following method decrements the passenger number with 1 
@@ -190,5 +197,12 @@ public class FlightService {
 	 */
 	public List<Flight> getAllFlightsOfTemplate(long flightTemplateId) {
 		return flightRepository.getAllFlightsOfTemplate(flightTemplateId);
+	}
+
+	/*
+	*The following method will return a list of all flights that belong to the given user
+	 */
+	public List<Flight> getAllFlightsOfGivenUser(String flightUser) {
+		return flightRepository.getAllFlightsOfUser(flightUser);
 	}
 }

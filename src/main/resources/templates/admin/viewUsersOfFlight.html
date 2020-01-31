@@ -17,8 +17,7 @@
 		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <title>Administrator Dashboard</title>
 </head>
-<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
-
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+')  fixed; background-repeat: no-repeat; background-size: cover; width: 100%; '">
 <header th:replace="template::admin-header"></header>
 <div th:if="${flightsOfTemplate.size() == 0}">
 	<h1>Unfortunately, no user has booked this flight yet :(</h1>

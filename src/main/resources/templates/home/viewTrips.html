@@ -11,7 +11,7 @@
 		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <title>List of trips</title>
 </head>
-<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed no-repeat;'">
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+')  fixed; background-repeat: no-repeat; background-size: cover; width: 100%; '">
 <header th:replace="template::user-header"></header> 
 <div th:object="${totalNumberOfTrips}" th:if="${totalNumberOfTrips == 0}">
 		<h1 align="center">You do not have any trips<span th:text="${tripId}"></span></h1>	

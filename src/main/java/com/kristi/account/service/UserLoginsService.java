@@ -22,6 +22,10 @@ public class UserLoginsService {
 	public void incrementUserLogin(int new_login, String username) {
 		userLoginsRepository.incrementUserLogin(new_login, username);
 	}
+
+	public int getNumberOfLogins(String username) {
+		return userLoginsRepository.getNumberOfLogins(username);
+	}
 	
 	//returning the user logins record for the given user
 	public UserLogins getRecordFromUser(String username) {
@@ -30,7 +34,7 @@ public class UserLoginsService {
 	
 	//getting a list of all users and their respective login times
 	public List<UserLogins> getAllLogins() {
-		return userLoginsRepository.getAllLogins();
+		return userLoginsRepository.getAllLogins("admin@gmail.com");
 	}
 	
 }

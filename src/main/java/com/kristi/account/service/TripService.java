@@ -151,6 +151,11 @@ public class TripService {
 		//returning the ModelAndView object
 		return mdv;
 	}
+
+	public int getTripsNumberAccordingToStatus(String trip_user,
+											   String trip_status) {
+		return tripRepository.getTripsAccordingToStatus(trip_user, trip_status).size();
+	}
 	
 	/*
 	 * The following method returns all the trips of the given user
@@ -173,6 +178,11 @@ public class TripService {
 	public ModelAndView getAllTrips() {
 		List<Trip> trips = tripRepository.getAllTrips("WAITING FOR APPROVAL");
 		return new ModelAndView("/admin/tripRequests", "trips", trips);
+	}
+
+	public ModelAndView getStatistics(String currentUser) {
+		int numberOfTrips = tripRepository.getAllTripsOfUser(currentUser).size();
+		return new ModelAndView("/home/viewStatistics", "numberOfTrips", numberOfTrips);
 	}
 	
 	//deleting the given trip

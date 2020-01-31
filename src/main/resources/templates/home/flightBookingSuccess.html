@@ -12,14 +12,15 @@
 		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <title>Flight booking success</title>
 </head>
-<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+')  fixed; background-repeat: no-repeat; background-size: cover; width: 100%; '">
 <header th:replace="template::user-header"></header> <br>
 
  	<div class="container">
- 	<div class="alert alert-success" role="alert">
-		  <h4 class="alert-heading">Success!</h4>
-		  <p>Success booking the following flight.</p>
-	</div>
+        <div class="alert alert-success" role="alert">
+              <h4 class="alert-heading">Success!</h4>
+              <p>Success booking the following flight.</p>
+        </div>
+    </div>
  	<table class="table table-striped table-dark" id="t01" border="2" width="70%" cellpadding="2" th:object="${flight}">
 <tr><th>From</th>
 <th>To</th><th>Departure date</th><th>Arrival date</th>
@@ -34,7 +35,6 @@
    <td th:text="${tripId}"></td>
    </tr>  
    </table>
-   </div>
    <footer th:replace="template::main-footer"></footer>  
 </body>
 </html>

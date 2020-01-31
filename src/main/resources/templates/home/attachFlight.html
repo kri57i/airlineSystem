@@ -10,8 +10,7 @@
 		  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     </head>
-	<body class = "text-center" th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
-<header th:replace="template::user-header"></header> 
+    <body th:style="'background:url('+ @{/img/lufthansa.jpg}+')  fixed; background-repeat: no-repeat; background-size: cover; width: 100%; '"><header th:replace="template::user-header"></header>
 <div th:object="${numberOfPossibilities}" th:if="${numberOfPossibilities == 0}">
 	<div class="container">
 		<h1 align="center">No flights available for trip number <span th:text="${tripId}"></span></h1>	

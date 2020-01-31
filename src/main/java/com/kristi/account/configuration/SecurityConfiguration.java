@@ -13,7 +13,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.kristi.account.service.UserService;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class
+SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Autowired
 	private UserService userService;
@@ -22,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		 http
          .authorizeRequests()
-         .antMatchers("/admin/**", 
+         .antMatchers("/admin/**",
         		 "/registration",
         		 "/userRegistrationSuccess/**",
         		 "/createFlightTemplate/**",
@@ -40,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         		 "/flightBookingSuccess/**",
         		 "/viewDetails/**",
         		 "/viewFlightDetails/**",
+        		 "/viewStatistics/**",
         		 "/viewTripFlights/**",
         		 "/createTrip/**",
         		 "/tripSuccess/**",

@@ -23,7 +23,11 @@ public interface UserLoginsRepository extends JpaRepository<UserLogins, Long>{
 	nativeQuery = true)
 	void incrementUserLogin(@Param("new_login") int new_login, 
 			@Param("username") String username);
-	
+
+	@Query(value = "SELECT login_times FROM user_logins " +
+			"WHERE username = :username", nativeQuery = true)
+	int getNumberOfLogins(@Param("username") String username);
+
 	/*
 	 * The following query returns a user_login record for the required user
 	 */
@@ -34,7 +38,8 @@ public interface UserLoginsRepository extends JpaRepository<UserLogins, Long>{
 	/*
 	 * The following query returns all the login_times
 	 */
-	@Query(value = "SELECT * FROM user_logins ORDER BY login_times DESC", 
+	@Query(value = "SELECT * FROM user_logins " +
+			"WHERE NOT username = :admin ORDER BY login_times DESC",
 			nativeQuery = true)
-	List<UserLogins> getAllLogins();
+	List<UserLogins> getAllLogins(@Param("admin") String admin);
 }

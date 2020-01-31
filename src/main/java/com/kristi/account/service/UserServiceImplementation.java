@@ -119,10 +119,8 @@ public class UserServiceImplementation implements UserService{
 		if(user == null) {
 			throw new UsernameNotFoundException("Invalid username or password!");
 		}
-		//incrementing login times only for non-admin users
-		if(!user.getEmail().equals("admin@gmail.com")) {
+		//incrementing login times for users
 		userLoginsService.incrementUserLogin(userLoginsService.getRecordFromUser(email).getLoginTimes() + 1, email);
-		}
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), 
 				user.getPassword(),
 				mapRolesToAuthorities(user.getRoles()));

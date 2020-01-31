@@ -22,7 +22,11 @@ public interface TripRepository extends JpaRepository<Trip, Long>{
 			+ "AND to_date IS NULL", 
 			nativeQuery = true)
 	List<Trip> getAllTripsOfUser(@Param("trip_user") String trip_user);
-	
+
+	@Query(value = "SELECT * FROM trip WHERE trip_user = :trip_user "
+			+ "AND to_date IS NULL AND trip_status = :trip_status", nativeQuery = true)
+	List<Trip> getTripsAccordingToStatus(@Param("trip_user") String trip_user,
+										 @Param("trip_status") String trip_status);
 	/*
 	 * The following query returns a list of trips with the required status
 	 */

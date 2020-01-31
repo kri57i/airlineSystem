@@ -17,8 +17,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <title>Administrator Dashboard</title>
 </head>
-<body th:style="'background:url('+ @{/img/lufthansa.jpg}+') fixed;'">
-<header th:replace="template::admin-header"></header>
+<body th:style="'background:url('+ @{/img/lufthansa.jpg}+')  fixed; background-repeat: no-repeat; background-size: cover; width: 100%; '"><header th:replace="template::admin-header"></header>
 	<h1 align="center">List of flights</h1>
 <form:form>
 <table class="table table-striped table-dark" id="t01" border="2" width="70%" cellpadding="2">

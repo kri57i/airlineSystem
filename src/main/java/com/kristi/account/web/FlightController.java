@@ -105,6 +105,13 @@ public class FlightController {
 		logger.info("Attempting to get a list of flights beloning to the selected trip");
 		return flightService.getAllFlightsOfTrip(tripId, model);
 	}
+
+	//mapping to this url, will return a list of flights for the given user
+	@GetMapping("/viewMyFlights")
+	public ModelAndView viewUserFlights() {
+		return new ModelAndView("/home/viewMyFlights",
+				"myFlights", flightService.getAllFlightsOfGivenUser(userService.getCurrentUserName()));
+	}
 	
 	//adding the reasons list as an attribute
 	@ModelAttribute("reasons")
